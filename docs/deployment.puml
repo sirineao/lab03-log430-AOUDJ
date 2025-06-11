@@ -1,0 +1,55 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam nodeStyle rectangle
+
+node "Client Browser" {
+  actor "User"
+}
+
+
+  node "my-store-api" {
+    [Express Server] --> controllers
+    controllers --> models
+
+    package "controllers" {
+      [SalesController]
+      [ProductController]
+      [LogisticsController]
+      [StoreController]
+    }
+
+    package "models" {
+      package "sales" {
+        [Sale]
+        [SaleItem]
+        [Return]
+        [ReturnItem]
+      }
+
+      package "products" {
+        [Product]
+        [ProductStock]
+      }
+
+      package "logistics" {
+        [LogisticsStock]
+        [StockRequest]
+      }
+
+      package "stores" {
+        [Store]
+      }
+    }
+  }
+
+  node "my-store-db" {
+    database "shop_db" as DB
+    folder "/var/lib/mysql" as Volume
+  }
+
+  DB -down-> Volume : Persists data
+
+
+"User" --> [Express Server] : HTTP (port 3000)
+models --> DB : Sequelize (port 3306)
+@enduml

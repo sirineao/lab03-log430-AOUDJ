@@ -1,0 +1,43 @@
+@startuml
+skinparam componentStyle rectangle
+
+package "Presentation Layer (API)" {
+  [Express App] --> [SalesController]
+  [Express App] --> [ProductController]
+  [Express App] --> [LogisticsController]
+  [Express App] --> [StoreController]
+}
+
+package "Repository Layer (Sequelize Models)" {
+  [SalesController] --> [SaleModel]
+  [SalesController] --> [SaleItemModel]
+  [SalesController] --> [ProductStockModel]
+  [SalesController] --> [ProductModel]
+  [SalesController] --> [ReturnModel]
+  [SalesController] --> [ReturnItemModel]
+
+  [ProductController] --> [ProductModel]
+  [ProductController] --> [ProductStockModel]
+  [ProductController] --> [LogisticsStockModel]
+
+  [LogisticsController] --> [LogisticsStockModel]
+  [LogisticsController] --> [StockRequestModel]
+  [LogisticsController] --> [ProductStockModel]
+
+  [StoreController] --> [StoreModel]
+  [StoreController] --> [ProductStockModel]
+}
+
+database "MySQL - shop_db" as DB
+
+[SaleModel] --> DB
+[ProductModel] --> DB
+[StoreModel] --> DB
+[ReturnModel] --> DB
+[ReturnItemModel] --> DB
+[SaleItemModel] --> DB
+[StockRequestModel] --> DB
+[ProductStockModel] --> DB
+[LogisticsStockModel] --> DB
+
+@enduml

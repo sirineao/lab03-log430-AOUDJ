@@ -1,0 +1,39 @@
+{
+  "name": "lab_0_log430_aoudj",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "NODE_ENV=test vitest",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sirineao/lab_0_log430_Aoudj.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sirineao/lab_0_log430_Aoudj/issues"
+  },
+  "homepage": "https://github.com/sirineao/lab_0_log430_Aoudj#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "globals": "^16.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.1",
+    "vitest": "^3.2.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.11.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Store Manager" as StoreManager
+actor "Logistics Manager" as LogisticsManager
+
+rectangle "Opération des ventes" {
+  usecase "1. Consulter le stock" as UC1
+  usecase "2. Créer une vente" as UC2
+  usecase "3. Demander du stock" as UC3
+  usecase "4. Traiter une demande" as UC4
+  usecase "5. Générer rapports" as UC5
+}
+
+StoreManager --> UC1
+StoreManager --> UC2
+StoreManager --> UC3
+StoreManager --> UC5
+
+LogisticsManager --> UC4
+LogisticsManager --> UC5
+@enduml

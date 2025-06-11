@@ -1,0 +1,95 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "stores" {
+  class Store {
+    +id: int
+    +name: string
+    +address: string
+    +region: string
+  }
+}
+
+package "products" {
+  class Product {
+    +id: int
+    +name: string
+    +price: decimal
+    +category: string
+  }
+
+  class ProductStock {
+    +id: int
+    +product_id: int
+    +store_id: int
+    +quantity: int
+  }
+}
+
+package "sales" {
+  class Sale {
+    +id: int
+    +store_id: int
+    +total_amount: decimal
+  }
+
+  class SaleItem {
+    +id: int
+    +sale_id: int
+    +product_id: int
+    +quantity: int
+    +unit_price: decimal
+    +subtotal: decimal
+  }
+
+  class Return {
+    +id: int
+    +store_id: int
+    +reason: string
+  }
+
+  class ReturnItem {
+    +id: int
+    +return_id: int
+    +product_id: int
+    +quantity: int
+  }
+}
+
+package "logistics" {
+  class LogisticsStock {
+    +id: int
+    +product_id: int
+    +quantity: int
+  }
+
+  class StockRequest {
+    +id: int
+    +store_id: int
+    +product_id: int
+    +quantity: int
+    +status: string
+  }
+}
+
+' Aggregation: Store contains ProductStock, Sale, Return, StockRequest
+Store o-- ProductStock
+Store o-- Sale
+Store o-- Return
+Store o-- StockRequest
+
+' Aggregation: Product is referenced by many things but does not own them
+Product o-- ProductStock
+Product o-- SaleItem
+Product o-- ReturnItem
+Product o-- LogisticsStock
+Product o-- StockRequest
+
+' Composition: Sale owns its SaleItems
+Sale *-- SaleItem
+
+' Composition: Return owns its ReturnItems
+Return *-- ReturnItem
+
+@enduml

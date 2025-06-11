@@ -1,0 +1,46 @@
+@startuml
+actor "Store Manager" as SM
+participant "Web App (Frontend)" as FE
+participant "Express API" as API
+participant "StockRequest Controller" as Controller
+participant "Sequelize (ORM)" as ORM
+database "MySQL\nshop_db" as DB
+
+== Création d'une demande ==
+
+SM -> FE : Remplit formulaire de demande
+FE -> API : POST /api/logistics/request
+API -> Controller : createStockRequest(req)
+Controller -> ORM : StockRequest.create(...)
+ORM -> DB : INSERT INTO StockRequests (...)
+DB --> ORM : Enregistrement créé
+ORM --> Controller : Objet StockRequest
+Controller --> API : Response 201 Created
+API --> FE : Confirmation
+
+== Traitement par un logisticien ==
+
+actor "Logistics Manager" as LM
+LM -> FE : Clique "Traiter"
+FE -> API : POST /api/logistics/process/:id
+API -> Controller : processStockRequest(req)
+Controller -> ORM : StockRequest.findByPk(id)
+ORM -> DB : SELECT * FROM StockRequests WHERE id = ...
+DB --> ORM : Objet StockRequest
+
+Controller -> ORM : LogisticsStock.findOne(...)
+ORM -> DB : SELECT * FROM LogisticsStock WHERE product_id = ...
+DB --> ORM : Stock disponible
+
+Controller -> ORM : ProductStock.findOrCreate(...)
+ORM -> DB : SELECT / INSERT INTO ProductStocks
+ORM --> Controller : ProductStock instance
+
+Controller -> ORM : Mise à jour des quantités
+ORM -> DB : UPDATE LogisticsStock / ProductStock
+Controller -> ORM : StockRequest.update(status='completed')
+ORM -> DB : UPDATE StockRequests
+
+Controller --> API : Response OK
+API --> FE : Confirmation
+@enduml
